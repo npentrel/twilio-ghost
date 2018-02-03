@@ -6,12 +6,16 @@ Buy a Twilio number from the [Twilio Console](https://www.twilio.com/console/pho
 
 ![](buy-number.gif)
 
-Set up a config file with all the important details so that we don't have to keep writing them and can keep them separately managed. Store the below in `config.py` and replace the placeholder values with your values.
+Set up a config file with all the important details so that we don't have to keep writing them and can keep them separately managed. Store the below in `config.py` and replace the placeholder values with your values. The code below relies on your environment variables containing a Twilio account sid and auth token. To set this up please follow the tutorial for your respective environment here.
 
 ```
-# Find these values at https://twilio.com/user/account
-ACCOUNT_SID = "ACXXXXXXXXXXXXXXXXX"
-AUTH_TOKEN = "YYYYYYYYYYYYYYYYYY"
+import os
+
+# Please add the following values to your environment variables as outlined here:
+# https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html
+
+ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
+AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 
 TWILIO_NUMBER = "+447123456789"
 PRIVATE_NUMBER = "+447987654321"
