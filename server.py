@@ -1,13 +1,11 @@
 import re
 
 from flask import Flask, request
-# Download the twilio-python library from twilio.com/docs/libraries/python
-from twilio.rest import Client
 from twilio.twiml.voice_response import Gather, VoiceResponse
+from twilio.twiml.messaging_response import Message, MessagingResponse
 
-from config import ACCOUNT_SID, AUTH_TOKEN, PRIVATE_NUMBER, TWILIO_NUMBER
+from config import PRIVATE_NUMBER, TWILIO_NUMBER
 
-client = Client(ACCOUNT_SID, AUTH_TOKEN)
 app = Flask(__name__)
 
 
@@ -18,12 +16,10 @@ def sms():
 
     if from_number == PRIVATE_NUMBER:  # if I am sending the sms
         msg, to_number = decode_message(msg_body)
-        send_message(msg, to_number)
+        return send_message(msg, to_number)
     else:  # if an attendee is sending the sms
         msg = encode_message(msg_body, from_number)
-        send_message(msg, PRIVATE_NUMBER)
-
-    return 'Message transmitted.'
+        return send_message(msg, PRIVATE_NUMBER)
 
 
 @app.route('/call', methods=['GET', 'POST'])
@@ -58,10 +54,9 @@ def perform_call(number, caller_id=None):
 
 
 def send_message(msg, number):
-    client.api.account.messages.create(
-        to=str(number),
-        from_=TWILIO_NUMBER,
-        body=msg)
+    response = MessagingResponse()
+    response.message(msg, to=number, from_=TWILIO_NUMBER)
+    return str(response)
 
 
 def encode_message(msg, number):
