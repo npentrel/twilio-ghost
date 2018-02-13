@@ -31,7 +31,7 @@ def call():
     else:  # if I am calling
         response = VoiceResponse()
         g = Gather(action="/aliasing", finish_on_key="#", method="POST")
-        g.say("Hello Gorgeous. Dial the number you want to call followed by the hash symbol.")
+        g.say("Hello organizer. Dial the number you want to call followed by the hash symbol.")
         response.append(g)
         return str(response)
 
